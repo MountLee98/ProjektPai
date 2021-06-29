@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerfiles">
+  <meta charset="UTF-8" />
+  <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<div th:fragment="logo">
+  <center>
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img style="width:auto; height:300px; object-fit:cover; object-position:50% 50%" src="https://www.diariesofmagazine.com/wp-content/uploads/2018/11/The-most-beautiful-landscapes-in-Kyrgyzstan_flowers.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img style="width:auto; height:300px; object-fit:cover; object-position:50% 50%" src="https://www.diariesofmagazine.com/wp-content/uploads/2018/11/mountain_The-most-beautiful-landscapes-in-Kyrgyzstan.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img style="width:auto; height:300px; object-fit:cover; object-position:50% 50%" src="https://www.diariesofmagazine.com/wp-content/uploads/2018/11/Issyk-kul_The-most-beautiful-landscapes-in-Kyrgyzstan.jpg" class="d-block w-100" alt="...">
+        </div>
+      </div>
+    </div>
+  </center>
+</div>
+
+
+<div th:fragment="navbar">
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="btn btn-secondary" href="/" role="button">Strona główna</a>
+    <div class="btn-group">
+      <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Wyszukaj wycieczki
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/searchAirport">Lotnisko (wylot)</a>
+        <a class="dropdown-item" href="/searchHotel">Hotel</a>
+        <a class="dropdown-item" href="/searchDeparture">Data wyjazdu</a>
+        <a class="dropdown-item" href="/searchReturn">Data powrotu</a>
+        <a class="dropdown-item" href="/searchType">Typ</a>
+        <a class="dropdown-item" href="/searchStars">Standard hotelu</a>
+        <a class="dropdown-item" href="/searchDuration">Długość (dni)</a>
+
+      </div>
+    </div>
+    <a class="btn btn-secondary" href="/search">Przejrzyj oferty</a>
+    <a class="btn btn-secondary" href="/sales">Wycieczki promocyjne</a>
+    <a class="btn btn-secondary" href="/lastMinute">Wycieczki last-minute</a>
+    <a class="btn btn-secondary" href="/bestsellers">Bestsellery</a>
+  </nav>
+</div>
+
+<div th:fragment="adminbar">
+  <nav class="navbar navbar-light bg-danger">
+    <a class="btn btn-danger btn-outline-dark" href="/showTrips" role="button">Wyświetl wszystkie</a>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-success dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dodaj
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/addHotel">hotel</a>
+        <a class="dropdown-item" href="/addContinent">kontynent</a>
+        <a class="dropdown-item" href="/addCountry">kraj</a>
+        <a class="dropdown-item" href="/addAirport">lotnisko</a>
+        <a class="dropdown-item" href="/addCity">miasto</a>
+        <a class="dropdown-item" href="/addParticipant">uczestnik</a>
+        <a class="dropdown-item" href="/addTrip">wycieczka</a>
+        <a class="dropdown-item" href="/addPurchase">zakup</a>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Edytuj
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">hotel</a>
+        <a class="dropdown-item" href="#">kontynent</a>
+        <a class="dropdown-item" href="#">kraj</a>
+        <a class="dropdown-item" href="#">lotnisko</a>
+        <a class="dropdown-item" href="#">miasto</a>
+        <a class="dropdown-item" href="#">uczestnik</a>
+        <a class="dropdown-item" href="#">wycieczka</a>
+        <a class="dropdown-item" href="#">zakup</a>
+
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div th:fragment="main">
+  <div class="card">
+    <div class="card-body">
+      <center>
+        Witamy na stronie naszego biura podróży!
+      </center>
+    </div>
+  </div>
+  <h1>
+
+  </h1>
+</div>
+
+<footer th:fragment="footer">
+  <div class="text-white bg-dark">
+    <center>
+      Strona przygotowana na przedmiot Programowanie Serwisów Sieciowych 2021 gr.1
+    </center>
+  </div>
+</footer>
+</body>
+</html>

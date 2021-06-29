@@ -1,0 +1,29 @@
+Strona główna
+
+Podstrony
+    wyszukiwarka
+    promowane wycieczki
+    wycieczki last-minute
+    bestsellers
+    Podstrona prezentująca daną wycieczkę
+    panel zakupu wycieczki
+
+Admin
+    wyświetl wszystkie
+        hotel
+        kontynent
+        kraj
+        lotnisko
+        miasto
+        uczestnik
+        wyceiczka
+        zakup
+    dodaj/edytuj/usuń
+        hotel
+        kontynent
+        kraj
+        lotnisko
+        miasto
+        uczestnik
+        wyceiczka
+        zakup

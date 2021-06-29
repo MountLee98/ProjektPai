@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Spring Boot Thymeleaf Application - Bootstrap Autocomplete</title>
+
+  <link th:rel="stylesheet" th:href="@{assets/select2-develop/dist/css/select2.css}"/>
+  <link th:rel="stylesheet" th:href="@{assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
+  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+<!-- Navigation -->
+
+<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+
+<div class="container-fluid border">
+
+  <div class="card">
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: logo"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: navbar"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: adminbar"></div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: main">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <table class="table table-sm table-bordered sortable">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">NAZWA WYCIECZKI</th>
+            <th scope="col">WYLOT</th>
+            <th scope="col">PRZYLOT</th>
+            <th scope="col">HOTEL</th>
+            <th scope="col">DATA WYJAZDU</th>
+            <th scope="col">DATA POWROTU</th>
+            <th scope="col">DŁUGOŚĆ (DNI)</th>
+            <th scope="col">Typ</th>
+            <th scope="col">CENA DOROSŁY</th>
+            <th scope="col">CENA DZIECKO</th>
+            <th scope="col">CZY PROMOWANA</th>
+            <th scope="col">MIEJSCA DLA DOROSŁYCH</th>
+            <th scope="col">MIEJSCA DLA DZIECI</th>
+            <th scope="col">ZDJĘCIE</th>
+          </tr>
+          <tr class="item" th:each="wycieczki : ${wycieczki}">
+            <td th:text="${wycieczki.tripId}"></td>
+            <td th:text="${wycieczki.name}"></td>
+            <td th:text="${wycieczki.from.name}"></td>
+            <td th:text="${wycieczki.to.name}"></td>
+            <td th:text="${wycieczki.hotel.name}"></td>
+            <td th:text="${wycieczki.departureDate}"></td>
+            <td th:text="${wycieczki.returnDate}"></td>
+            <td th:text="${wycieczki.daysDuration}"></td>
+            <td th:text="${wycieczki.type}"></td>
+            <td th:text="${wycieczki.adultPrice}"></td>
+            <td th:text="${wycieczki.kidsPrice}"></td>
+            <td th:text="${wycieczki.isPromoted}"></td>
+            <td th:text="${wycieczki.adultNumberOfSeats}"></td>
+            <td th:text="${wycieczki.kidsNumberOfSeats}"></td>
+            <td><img th:src="${wycieczki.photo}" /></td>
+            <td><a th:href="@{/deleteTrip/tripId={id}(id=${wycieczki.getTripId()})}">Usuń</a></td>
+            <td><a th:href="@{/editTrip/tripId={id}(id=${wycieczki.getTripId()})}">Edytuj</a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <footer th:insert="fragments.html :: footer">
+
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/select2-develop/dist/js/select2.full.js}"></script>
+</body>
+</html>

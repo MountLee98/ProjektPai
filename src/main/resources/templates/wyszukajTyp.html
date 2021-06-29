@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Spring Boot Thymeleaf Application - Bootstrap Autocomplete</title>
+
+  <link th:rel="stylesheet" th:href="@{assets/select2-develop/dist/css/select2.css}"/>
+  <link th:rel="stylesheet" th:href="@{assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
+  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+<!-- Navigation -->
+
+
+<div class="container-fluid border">
+
+  <div class="card">
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: logo"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: navbar"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: main">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <form action="#" th:action="@{/searchType}" th:object="${wycieczka}" method="post">
+          <p>Wyszukaj wycieczkę po typie: <select th:field="*{type}" class="form-control">
+            <option th:each="typy : ${T(biuro.podrozy.projekt.model.Typ).values()}" th:value="${typy}" th:text="${typy}"></option>
+          </select></p>
+          <p><input type="submit" value="Submit" /></p>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <footer th:insert="fragments.html :: footer">
+
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/select2-develop/dist/js/select2.full.js}"></script>
+</body>
+</html>

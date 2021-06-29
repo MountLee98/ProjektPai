@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Spring Boot Thymeleaf Application - Bootstrap Autocomplete</title>
+
+  <link th:rel="stylesheet" th:href="@{assets/select2-develop/dist/css/select2.css}"/>
+  <link th:rel="stylesheet" th:href="@{assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
+  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+<!-- Navigation -->
+
+
+<div class="container-fluid border">
+
+  <div class="card">
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: logo"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: navbar"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: adminbar"></div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: main">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <form action="#" th:action="@{/editTrip}" th:object="${wycieczka}" method="post">
+          <p>Nazwa: <input type="text" th:field="*{name}" /></p>
+          <p>Lot z lotniska: <select th:field="*{from}" class="form-control">
+            <option th:each="lotnisko: ${lotniska}" th:value="${lotnisko.airportId}" th:text="${lotnisko.name}"></option>
+          </select></p>
+          <p>Lot do lotniska: <select th:field="*{to}" class="form-control">
+            <option th:each="lotnisko: ${lotniska}" th:value="${lotnisko.airportId}" th:text="${lotnisko.name}"></option>
+          </select></p>
+          <p>Nocowanie w hotelu: <select th:field="*{hotel}" class="form-control">
+            <option th:each="hotel: ${hotele}" th:value="${hotel.hotelId}" th:text="${hotel.name}"></option>
+          </select></p>
+          <p>Data wyjazdu: <input type="date" th:value="*{departureDate}" th:field="*{departureDate}" /></p>
+          <p>Data powrotu: <input type="date" th:value="*{returnDate}" th:field="*{returnDate}" /></p>
+          <p>Ilość dni: <input type="number" min="0" th:field="*{daysDuration}" /></p>
+          <p>Typ wycieczki: <select th:field="*{type}" class="form-control">
+            <option th:each="typy : ${T(biuro.podrozy.projekt.model.Typ).values()}" th:value="${typy}" th:text="${typy}"></option>
+          </select></p>
+          <p>Cena za dorosłego: <input type="number" min="0"  step="0.01" th:field="*{adultPrice}" /></p>
+          <p>Cena za dziecko: <input type="number" min="0"  step="0.01" th:field="*{kidsPrice}" /></p>
+          <label th:for="isPromoted" th:text="'Czy promowana:'"></label> <input type="checkbox" th:checked="*{isPromoted}" />
+          <p>Ilość miejsc dla dorosłych: <input type="number" min="0" th:field="*{adultNumberOfSeats}" /></p>
+          <p>Ilość miejsc dla dzieci: <input type="number" min="0" th:field="*{kidsNumberOfSeats}" /></p>
+          <p>Dodaj zdjęcie: <input type="file" accept="image/png, image/jpeg" th:field="*{photo}" /></p>
+          <p><input type="submit" value="Submit" />
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <footer th:insert="fragments.html :: footer">
+
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/select2-develop/dist/js/select2.full.js}"></script>
+</body>
+</html>
