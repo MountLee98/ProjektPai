@@ -64,7 +64,7 @@
           </select></p>
           <p>Cena za dorosłego: <input type="number" min="0"  step="0.01" th:field="*{adultPrice}" /></p>
           <p>Cena za dziecko: <input type="number" min="0"  step="0.01" th:field="*{kidsPrice}" /></p>
-          <label th:for="isPromoted" th:text="'Czy promowana:'"></label> <input type="checkbox" th:field="*{isPromoted}" />
+          <label th:for="promoted" th:text="'Czy promowana:'"></label> <input type="checkbox" th:field="*{promoted}" />
           <p>Ilość miejsc dla dorosłych: <input type="number" min="0" th:field="*{adultNumberOfSeats}" /></p>
           <p>Ilość miejsc dla dzieci: <input type="number" min="0" th:field="*{kidsNumberOfSeats}" /></p>
           <p>Dodaj zdjęcie: <input type="file" accept="image/png, image/jpeg" th:field="*{photo}" /></p>

@@ -100,6 +100,7 @@ public class SiteController {
 
     @PostMapping("/addTrip")
     String addTrip(@ModelAttribute("wycieczka")Wycieczka wycieczka) {
+        System.out.println(wycieczka.isPromoted());
         wycService.addWycieczka(wycieczka);
         return "addSuccess";
     }

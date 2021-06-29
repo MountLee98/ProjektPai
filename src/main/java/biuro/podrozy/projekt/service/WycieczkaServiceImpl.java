@@ -280,8 +280,8 @@ public class WycieczkaServiceImpl implements WycieczkaService{
 	}
 
 	@Override
-	public List<Wycieczka> getByIsPromoted(boolean isPromoted) {
-		List<Wycieczka> w = getAll().stream().filter(x -> x.getIsPromoted() == isPromoted).collect(Collectors.toList());
+	public List<Wycieczka> getByPromoted(boolean promoted) {
+		List<Wycieczka> w = getAll().stream().filter(x -> x.isPromoted() == promoted).collect(Collectors.toList());
 		if(w.isEmpty() == false) {
 			return w;
 		}
@@ -289,10 +289,10 @@ public class WycieczkaServiceImpl implements WycieczkaService{
 	}
 
 	@Override
-	public void addIsPromoted(Long id, boolean isPromoted) {
+	public void addPromoted(Long id, boolean promoted) {
 		Optional<Wycieczka> w = wycRepo.findById(id);
 		if(w.isPresent()) {
-			w.get().setPromoted(isPromoted);
+			w.get().setPromoted(promoted);
 			wycRepo.save(w.get());
 		}
 	}

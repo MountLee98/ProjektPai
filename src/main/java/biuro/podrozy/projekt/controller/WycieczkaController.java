@@ -194,17 +194,17 @@ public class WycieczkaController {
 		wycService.addKidSeats(id, seatsAmount);
 	}
 	
-	@GetMapping("/getbyispromoted")
-	List<Wycieczka> getByIsPromoted(
-			@RequestParam("isPromoted")boolean isPromoted) {
-		return wycService.getByIsPromoted(isPromoted);
+	@GetMapping("/getbypromoted")
+	List<Wycieczka> getByPromoted(
+			@RequestParam("promoted")boolean promoted) {
+		return wycService.getByPromoted(promoted);
 	}
 	
-	@PutMapping("/setispromoted")
+	@PutMapping("/setpromoted")
 	void addIsPromoted(
 			@RequestParam("tripId")Long id, 
-			@RequestParam("isPromoted")boolean isPromoted) {
-		wycService.addIsPromoted(id, isPromoted);
+			@RequestParam("promoted")boolean promoted) {
+		wycService.addPromoted(id, promoted);
 	}
 	
 	@PutMapping("/setpicture")

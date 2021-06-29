@@ -67,8 +67,8 @@ public class Wycieczka {
 	private float adultPrice;
 	
 	private float kidsPrice;
-	
-	private boolean isPromoted;
+
+	private boolean promoted;
 	
 	private int adultNumberOfSeats;
 	
@@ -168,14 +168,6 @@ public class Wycieczka {
 		this.kidsPrice = kidsPrice;
 	}
 
-	public boolean getIsPromoted() {
-		return isPromoted;
-	}
-
-	public void setPromoted(boolean isPromoted) {
-		this.isPromoted = isPromoted;
-	}
-
 	public int getAdultNumberOfSeats() {
 		return adultNumberOfSeats;
 	}
@@ -198,6 +190,14 @@ public class Wycieczka {
 
 	public void setPhoto(File photo) {
 		this.photo = photo;
+	}
+
+	public boolean isPromoted() {
+		return promoted;
+	}
+
+	public void setPromoted(boolean promoted) {
+		this.promoted = promoted;
 	}
 
 //	public List<ZakupWycieczki> getTripsPurchases() {

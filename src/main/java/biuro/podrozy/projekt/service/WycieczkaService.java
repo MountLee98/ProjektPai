@@ -35,8 +35,8 @@ public interface WycieczkaService {
 	void addAdultSeats(Long id, int seatsAmount);
 	List<Wycieczka> getByKidSeats(int seatsAmount);
 	void addKidSeats(Long id, int seatsAmount);
-	List<Wycieczka> getByIsPromoted(boolean isPromoted);
-	void addIsPromoted(Long id, boolean isPromoted);
+	List<Wycieczka> getByPromoted(boolean promoted);
+	void addPromoted(Long id, boolean isPromoted);
 	void addPicture(Long id, File picture);
 	Wycieczka getById(Long id);
 	boolean deleteById(Long id);
