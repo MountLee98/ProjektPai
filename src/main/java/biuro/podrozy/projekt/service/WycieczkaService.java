@@ -15,6 +15,7 @@ public interface WycieczkaService {
 	List<Wycieczka> getByHotelName(String name);
 	List<Wycieczka> getByHotelStars(Gwiazdki gwiazdki);
 	List<Wycieczka> getByFrom(Lotnisko lotnisko);
+	List<Wycieczka> getByTo(Lotnisko lotnisko);
 	List<Wycieczka> getByFromName(String name);
 	void addHotel(Long idWyc, Long idHotel);
 	void addFrom(Long idWyc, Long idLotn);

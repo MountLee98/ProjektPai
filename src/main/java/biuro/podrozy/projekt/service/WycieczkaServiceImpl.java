@@ -114,6 +114,15 @@ public class WycieczkaServiceImpl implements WycieczkaService{
 	}
 
 	@Override
+	public List<Wycieczka> getByTo(Lotnisko lotnisko) {
+		List<Wycieczka> w = getAll().stream().filter(x -> x.getTo() == lotnisko).collect(Collectors.toList());
+		if(w.isEmpty() == false) {
+			return w;
+		}
+		return null;
+	}
+
+	@Override
 	public List<Wycieczka> getByFromName(String name) {
 		List<Wycieczka> w = getAll().stream().filter(x -> x.getFrom().getName().equals(name)).collect(Collectors.toList());
 		if(w.isEmpty() == false) {

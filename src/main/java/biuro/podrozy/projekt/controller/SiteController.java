@@ -1,15 +1,25 @@
 package biuro.podrozy.projekt.controller;
 
 import biuro.podrozy.projekt.model.*;
-import biuro.podrozy.projekt.storage.StorageService;
 import biuro.podrozy.projekt.service.*;
-import biuro.podrozy.projekt.storage.StorageService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,6 +33,7 @@ public class SiteController {
 //    public SiteController(StorageService storageService) {
 //        this.storageService = storageService;
 //    }
+    private String uploadFolder = "";
 
     @Autowired
     KrajService krajService;
@@ -99,10 +110,45 @@ public class SiteController {
     }
 
     @PostMapping("/addTrip")
-    String addTrip(@ModelAttribute("wycieczka")Wycieczka wycieczka) {
-        System.out.println(wycieczka.isPromoted());
+    String addTrip(@ModelAttribute("wycieczka")Wycieczka wycieczka, @RequestParam("photo") MultipartFile file, HttpServletRequest request) {
+        try {
+            String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
+            try {
+                File dir = new File(uploadDirectory);
+                String fileName = file.getOriginalFilename();
+                String filePath = Paths.get(uploadDirectory, fileName).toString();
+                System.out.println(dir+" "+fileName+" "+filePath);
+                if (fileName == null || fileName.contains("..")) {
+                    wycService.addWycieczka(wycieczka);
+                    return "addSuccess";
+                }
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                // Save the file locally
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+                stream.write(file.getBytes());
+                stream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            byte[] imageData = file.getBytes();
+            System.out.println(imageData);
+            wycieczka.setImage(imageData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         wycService.addWycieczka(wycieczka);
         return "addSuccess";
+    }
+
+    @GetMapping("/image/display/{id}")
+    @ResponseBody
+    void showImage(@PathVariable("id") Long id, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+        response.getOutputStream().write(wycService.getById(id).getImage());
+        response.getOutputStream().close();
     }
 
     @GetMapping("/addHotel")
@@ -182,7 +228,12 @@ public class SiteController {
     }
 
     @GetMapping("/")
-    String main(){
+    String main(Model model){
+        model.addAttribute("promowane", wycService.getByPromoted(true));
+        model.addAttribute("zblizajace", wycService.getAll().stream().filter(x ->
+                x.getDepartureDate().minusDays(8).isBefore(LocalDate.now()) &&
+                        x.getDepartureDate().isAfter(LocalDate.now())
+        ).collect(Collectors.toList()));
         return "main";
     }
 
@@ -296,8 +347,141 @@ public class SiteController {
     }
 
     @PostMapping("/editTrip")
-    public String editDelegationPost(@ModelAttribute Wycieczka wycieczka){
+    public String editDelegationPost(@ModelAttribute Wycieczka wycieczka,final @RequestParam("photo") MultipartFile file, HttpServletRequest request){
+        try {
+            String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
+            try {
+                File dir = new File(uploadDirectory);
+                String fileName = file.getOriginalFilename();
+                String filePath = Paths.get(uploadDirectory, fileName).toString();
+                System.out.println(dir+" "+fileName+" "+filePath);
+                if (fileName == null || fileName.contains("..")) {
+                    wycService.addWycieczka(wycieczka);
+                    return "redirect:/showTrips";
+                }
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                // Save the file locally
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+                stream.write(file.getBytes());
+                stream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            byte[] imageData = file.getBytes();
+            System.out.println(imageData);
+            wycieczka.setImage(imageData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         wycService.addWycieczka(wycieczka);
         return "redirect:/showTrips";
+    }
+
+    @GetMapping("/show")
+    String show(Model model){
+        model.addAttribute("promowane", wycService.getByPromoted(true));
+        model.addAttribute("zblizajace", wycService.getAll().stream().filter(x ->
+                x.getDepartureDate().minusDays(8).isBefore(LocalDate.now()) &&
+                        x.getDepartureDate().isAfter(LocalDate.now())
+        ).collect(Collectors.toList()));
+        return "x";
+    }
+
+    @GetMapping("/searchHotel/hotelId={hotelId}")
+    public String searchHotel(@PathVariable Long hotelId, Model model){
+        model.addAttribute("wycieczki", wycService.getByHotelName(hotelService.getById(hotelId).getName()));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/searchAirport/airportId={airportId}")
+    public String searchAirport(@PathVariable Long airportId, Model model){
+        model.addAttribute("wycieczki", wycService.getByFrom(lotniskoService.getById(airportId)));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/searchAirportTo/airportId={airportId}")
+    public String searchAirportTo(@PathVariable Long airportId, Model model){
+        model.addAttribute("wycieczki", wycService.getByTo(lotniskoService.getById(airportId)));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/searchStars/{stars}")
+    public String searchAirport(@PathVariable Gwiazdki stars, Model model){
+        model.addAttribute("wycieczki", wycService.getByHotelStars(stars));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/searchType/{type}")
+    public String searchAirport(@PathVariable Typ type, Model model){
+        model.addAttribute("wycieczki", wycService.getByType(type));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/searchDeparture/{date}")
+    public String searchDeparture(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, Model model){
+        model.addAttribute("wycieczki", wycService.getByDepartureDate(date));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/searchReturn/{date}")
+    public String searchReturn(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, Model model){
+        model.addAttribute("wycieczki", wycService.getByReturnDate(date));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/buyTrip/tripId={tripId}")
+    public String buyTrip(@PathVariable Long airportId, Model model){
+        model.addAttribute("wycieczki", wycService.getByFrom(lotniskoService.getById(airportId)));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/lastCall")
+    String lastCall(Model model){
+        model.addAttribute("wycieczki", wycService.getAll().stream().filter(x ->
+                x.getDepartureDate().minusDays(3).isBefore(LocalDate.now()) &&
+                        x.getDepartureDate().isAfter(LocalDate.now())
+        ).collect(Collectors.toList()));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/lastMinute")
+    String lastMinute(Model model){
+        model.addAttribute("wycieczki", wycService.getAll().stream().filter(x ->
+                x.getDepartureDate().minusDays(6).isBefore(LocalDate.now()) &&
+                        x.getDepartureDate().isAfter(LocalDate.now())
+        ).collect(Collectors.toList()));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/showTrip/tripId={tripId}")
+    public String showTrip(@PathVariable Long tripId, Model model){
+        model.addAttribute("wycieczka", wycService.getById(tripId));
+        return "wyswietlWycieczke";
+    }
+
+    @GetMapping("/searchContinent/continentId={continentId}")
+    public String searchContinent(@PathVariable Long continentId, Model model){
+        model.addAttribute("wycieczki", wycService.getAll().stream().filter(x ->
+                x.getHotel().getCity().getCountry().getContinent().getContinentId() == continentId
+        ).collect(Collectors.toList()));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/searchCountry/countryId={countryId}")
+    public String searchCountry(@PathVariable Long countryId, Model model){
+        model.addAttribute("wycieczki", wycService.getAll().stream().filter(x ->
+                x.getHotel().getCity().getCountry().getCountryId() == countryId
+        ).collect(Collectors.toList()));
+        return "wyszukajWynik";
+    }
+
+    @GetMapping("/searchCity/cityId={cityId}")
+    public String searchCity(@PathVariable Long cityId, Model model){
+        model.addAttribute("wycieczki", wycService.getAll().stream().filter(x ->
+                x.getHotel().getCity().getCityId() == cityId
+        ).collect(Collectors.toList()));
+        return "wyszukajWynik";
     }
 }

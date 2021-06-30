@@ -2,16 +2,8 @@ package biuro.podrozy.projekt.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -30,9 +22,11 @@ public class Hotel {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long hotelId;
-	
+
+	@NotNull(message = "Podaj nazwę")
 	private String name;
-	
+
+	@NotNull(message = "Wybierz standard hotelu")
 	private Gwiazdki stars;
 	
 	private String description;
@@ -40,6 +34,7 @@ public class Hotel {
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "cityId")
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@NotNull(message = "Wybierz miasto")
     private Miasto city;
 	
 //	@OneToMany(cascade = CascadeType.REMOVE)

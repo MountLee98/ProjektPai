@@ -2,17 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
-  <title>Spring Boot Thymeleaf Application - Bootstrap Autocomplete</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 
-  <link th:rel="stylesheet" th:href="@{assets/select2-develop/dist/css/select2.css}"/>
-  <link th:rel="stylesheet" th:href="@{assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
-  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <link th:rel="stylesheet" th:href="@{/assets/select2-develop/dist/css/select2.css}"/>
+  <link th:rel="stylesheet" th:href="@{/assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
-
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <!-- Navigation -->
-
-<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 
 <div class="container-fluid border">
 
@@ -29,50 +28,106 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col">
-        <div th:insert="fragments.html :: main">
-
+    <div class="container">
+      <div class="col-xs col-md bootstrap snippets bootdeys" th:each="wycieczki : ${wycieczki}">
+        <!-- product -->
+        <div class="product-content product-wrap clearfix">
+          <div class="row">
+            <div class="col-md-5 col-sm-12 col-xs-12">
+              <div class="product-image">
+                <img th:src="@{${'/image/display/'+ wycieczki.tripId}}"
+                     class="img-responsive" height="400px"/>
+              </div>
+            </div>
+            <div class="col-md-7 col-sm-12 col-xs-12">
+              <div class="product-deatil">
+                <h3 class="name">
+                  <p>
+                    <a th:href="@{/showTrip/tripId={id}(id=${wycieczki.getTripId()})}">
+                      <label th:for="name" th:text="${wycieczki.name}" />
+                    </a>
+                  </p>
+                </h3>
+                <p>Hotel: <a th:href="@{/searchHotel/hotelId={id}(id=${wycieczki.getHotel().getHotelId()})}"><label th:for="hotel" th:text="${wycieczki.hotel.name}" /></a></p>
+                <p>Lot z: <a th:href="@{/searchAirport/airportId={id}(id=${wycieczki.getFrom().getAirportId()})}"><label th:for="from" th:text="${wycieczki.from.name}" /></a></p>
+                <p class="price-container">
+                  Dorosły: <span th:text="${wycieczki.adultPrice}"></span><span>zł</span>
+                </p>
+                <p class="price-container">
+                  Dzieci: <span th:text="${wycieczki.kidsPrice}"></span><span>zł</span>
+                </p>
+                <span class="tag1"></span>
+              </div>
+              <div class="description">
+                <p>Czas trwania wycieczki:</p>
+                <p>
+                  <a th:href="@{/searchDeparture/{date}(date=${wycieczki.getDepartureDate()})}">
+                    <span th:text="${wycieczki.departureDate}"></span>
+                  </a>
+                  do
+                  <a th:href="@{/searchReturn/{date}(date=${wycieczki.getReturnDate()})}">
+                    <span th:text="${wycieczki.returnDate}"></span>
+                  </a>
+                </p>
+              </div>
+              <div class="product-info smart-form">
+                <div class="row">
+                  <div class="col-md-6 col-sm-6 col-xs-6">
+                    <a th:href="@{/buyTrip/tripId={id}(id=${wycieczki.getTripId()})}" class="btn btn-success">Kup wycieczkę</a>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="rating" th:if="${wycieczki.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).JEDNOGWIAZDKOWE}">
+                      <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).JEDNOGWIAZDKOWE})}">
+                        <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                      </a>
+                    </div>
+                    <div class="rating" th:if="${wycieczki.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).DWUGWIAZDKOWE}">
+                      <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).DWUGWIAZDKOWE})}">
+                        <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                      </a>
+                    </div>
+                    <div class="rating" th:if="${wycieczki.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).TRZYGWIAZDKOWE}">
+                      <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).TRZYGWIAZDKOWE})}">
+                        <label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                      </a>
+                    </div>
+                    <div class="rating" th:if="${wycieczki.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).CZTEROGWIAZDKOWE}">
+                      <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).CZTEROGWIAZDKOWE})}">
+                        <label for="stars-rating-4"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                      </a>
+                    </div>
+                    <div class="rating" th:if="${wycieczki.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).PIECIOGWIAZDKOWE}">
+                      <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).PIECIOGWIAZDKOWE})}">
+                        <label for="stars-rating-5"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-4"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                      </a>
+                    </div>
+                    <div class="rating" th:if="${wycieczki.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).SZESCIOGWIAZDKOWE}">
+                      <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).SZESCIOGWIAZDKOWE})}">
+                        <label for="stars-rating-6"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-5"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-4"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                        <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <table class="table table-sm table-bordered sortable">
-          <tr>
-            <th>NAZWA WYCIECZKI</th>
-            <th>WYLOT</th>
-            <th>PRZYLOT</th>
-            <th>HOTEL</th>
-            <th>DATA WYJAZDU</th>
-            <th>DATA POWROTU</th>
-            <th>DŁUGOŚĆ (DNI)</th>
-            <th>Typ</th>
-            <th>CENA DOROSŁY</th>
-            <th>CENA DZIECKO</th>
-            <th>CZY PROMOWANA</th>
-            <th>MIEJSCA DLA DOROSŁYCH</th>
-            <th>MIEJSCA DLA DZIECI</th>
-            <th>ZDJĘCIE</th>
-          </tr>
-          <tr class="item" th:each="wycieczki : ${wycieczki}">
-            <td th:text="${wycieczki.name}"></td>
-            <td th:text="${wycieczki.from.name}"></td>
-            <td th:text="${wycieczki.to.name}"></td>
-            <td th:text="${wycieczki.hotel.name}"></td>
-            <td th:text="${wycieczki.departureDate}"></td>
-            <td th:text="${wycieczki.returnDate}"></td>
-            <td th:text="${wycieczki.daysDuration}"></td>
-            <td th:text="${wycieczki.type}"></td>
-            <td th:text="${wycieczki.adultPrice}"></td>
-            <td th:text="${wycieczki.kidsPrice}"></td>
-            <td th:text="${wycieczki.promoted}"></td>
-            <td th:text="${wycieczki.adultNumberOfSeats}"></td>
-            <td th:text="${wycieczki.kidsNumberOfSeats}"></td>
-            <td><img th:src="${wycieczki.photo}" /></td>
-          </tr>
-        </table>
+        <!-- end product -->
       </div>
     </div>
     <div class="row">
@@ -85,9 +140,332 @@
   </div>
 </div>
 
+<style type="text/css">
+body{
+    margin-top:20px;
+    background:#eee;
+}
+
+.product-content {
+    border: 2px solid #dfe5e9;
+    margin-bottom: 20px;
+    margin-top: 12px;
+    background: #fff;
+    padding: 4px;
+        -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+}
+
+.product-content .carousel-control.left {
+    margin-left: 0
+}
+
+.product-content .product-image {
+    background-color: #fff;
+    display: block;
+    min-height: 238px;
+    overflow: hidden;
+    position: relative
+}
+
+.product-content .product-deatil {
+    border-bottom: 1px solid #dfe5e9;
+    padding-bottom: 17px;
+    padding-left: 16px;
+    padding-top: 16px;
+    position: relative;
+    background: #fff
+}
+
+.product-content .product-deatil h5 a {
+    color: #2f383d;
+    font-size: 15px;
+    line-height: 19px;
+    text-decoration: none;
+    padding-left: 0;
+    margin-left: 0
+}
+
+.product-content .product-deatil h5 a span {
+    color: #9aa7af;
+    display: block;
+    font-size: 13px
+}
+
+.product-content .product-deatil span.tag1 {
+    border-radius: 50%;
+    color: #fff;
+    font-size: 15px;
+    height: 50px;
+    padding: 13px 0;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    top: 10px;
+    width: 50px
+}
+
+.product-content .product-deatil span.sale {
+    background-color: #21c2f8
+}
+
+.product-content .product-deatil span.discount {
+    background-color: #71e134
+}
+
+.product-content .product-deatil span.hot {
+    background-color: #fa9442
+}
+
+.product-content .description {
+    font-size: 12.5px;
+    line-height: 20px;
+    padding: 10px 14px 16px 19px;
+    background: #fff
+}
+
+.product-content .product-info {
+    padding: 11px 19px 10px 20px
+}
+
+.product-content .product-info a.add-to-cart {
+    color: #2f383d;
+    font-size: 13px;
+    padding-left: 16px
+}
+
+.product-content name.a {
+    padding: 5px 10px;
+    margin-left: 16px
+}
+
+.product-info.smart-form .btn {
+    padding: 6px 12px;
+    margin-left: 12px;
+    margin-top: -10px
+}
+
+.product-entry .product-deatil {
+    border-bottom: 1px solid #dfe5e9;
+    padding-bottom: 17px;
+    padding-left: 16px;
+    padding-top: 16px;
+    position: relative
+}
+
+.product-entry .product-deatil h5 a {
+    color: #2f383d;
+    font-size: 15px;
+    line-height: 19px;
+    text-decoration: none
+}
+
+.product-entry .product-deatil h5 a span {
+    color: #9aa7af;
+    display: block;
+    font-size: 13px
+}
+
+.load-more-btn {
+    background-color: #21c2f8;
+    border-bottom: 2px solid #037ca5;
+    border-radius: 2px;
+    border-top: 2px solid #0cf;
+    margin-top: 20px;
+    padding: 9px 0;
+    width: 100%
+}
+
+.product-block .product-deatil p.price-container span,
+.product-content .product-deatil p.price-container span,
+.product-entry .product-deatil p.price-container span,
+.shipping table tbody tr td p.price-container span,
+.shopping-items table tbody tr td p.price-container span {
+    color: #21c2f8;
+    font-family: Lato, sans-serif;
+    font-size: 24px;
+    line-height: 20px
+}
+
+.product-info.smart-form .rating label {
+    margin-top: 0
+}
+
+.product-wrap .product-image span.tag2 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 10px 0;
+    color: #fff;
+    font-size: 11px;
+    text-align: center
+}
+
+.product-wrap .product-image span.sale {
+    background-color: #57889c
+}
+
+.product-wrap .product-image span.hot {
+    background-color: #a90329
+}
+
+.shop-btn {
+    position: relative
+}
+
+.shop-btn>span {
+    background: #a90329;
+    display: inline-block;
+    font-size: 10px;
+    box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
+    font-weight: 700;
+    border-radius: 50%;
+    padding: 2px 4px 3px!important;
+    text-align: center;
+    line-height: normal;
+    width: 19px;
+    top: -7px;
+    left: -7px
+}
+
+.description-tabs {
+    padding: 30px 0 5px!important
+}
+
+.description-tabs .tab-content {
+    padding: 10px 0
+}
+
+.product-deatil {
+    padding: 30px 30px 50px
+}
+
+.product-deatil hr+.description-tabs {
+    padding: 0 0 5px!important
+}
+
+.product-deatil .carousel-control.left,
+.product-deatil .carousel-control.right {
+    background: none!important
+}
+
+.product-deatil .glyphicon {
+    color: #3276b1
+}
+
+.product-deatil .product-image {
+    border-right: 0px solid #fff !important
+}
+
+.product-deatil .name {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.product-deatil .name small {
+    display: block
+}
+
+.product-deatil .name a {
+    margin-left: 0
+}
+
+.product-deatil .price-container {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 300
+}
+
+.product-deatil .price-container small {
+    font-size: 12px
+}
+
+.product-deatil .fa-2x {
+    font-size: 16px!important
+}
+
+.product-deatil .fa-2x>h5 {
+    font-size: 12px;
+    margin: 0
+}
+
+.product-deatil .fa-2x+a,
+.product-deatil .fa-2x+a+a {
+    font-size: 13px
+}
+
+.product-deatil .certified {
+    margin-top: 10px
+}
+
+.product-deatil .certified ul {
+    padding-left: 0
+}
+
+.product-deatil .certified ul li:not(first-child) {
+    margin-left: -3px
+}
+
+.product-deatil .certified ul li {
+    display: inline-block;
+    background-color: #f9f9f9;
+    padding: 13px 19px
+}
+
+.product-deatil .certified ul li:first-child {
+    border-right: none
+}
+
+.product-deatil .certified ul li a {
+    text-align: left;
+    font-size: 12px;
+    color: #6d7a83;
+    line-height: 16px;
+    text-decoration: none
+}
+
+.product-deatil .certified ul li a span {
+    display: block;
+    color: #21c2f8;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center
+}
+
+.product-deatil .message-text {
+    width: calc(100% - 70px)
+}
+
+@media only screen and (min-width:1024px) {
+    .product-content div[class*=col-md-4] {
+        padding-right: 0
+    }
+    .product-content div[class*=col-md-8] {
+        padding: 0 13px 0 0
+    }
+    .product-wrap div[class*=col-md-5] {
+        padding-right: 0
+    }
+    .product-wrap div[class*=col-md-7] {
+        padding: 0 13px 0 0
+    }
+    .product-content .product-image {
+        border-right: 1px solid #dfe5e9
+    }
+    .product-content .product-info {
+        position: relative
+    }
+}
+</style>
+
+<script type="text/javascript">
+
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{assets/select2-develop/dist/js/select2.full.js}"></script>
+<script th:src="@{/assets/select2-develop/dist/js/select2.full.js}"></script>
 </body>
 </html>

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -31,12 +32,14 @@ public class Miasto {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long cityId;
-	
+
+	@NotNull(message = "Podaj nazwę")
 	private String name;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "countryId")
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@NotNull(message = "Wybierz państwo")
     private Kraj country;
 
 	//@OneToMany(cascade = CascadeType.REMOVE)

@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+  <link th:rel="stylesheet" th:href="@{/assets/select2-develop/dist/css/select2.css}"/>
+  <link th:rel="stylesheet" th:href="@{/assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<!-- Navigation -->
+
+<div class="container-fluid border">
+
+  <div class="card">
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: logo"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div th:insert="fragments.html :: navbar"></div>
+      </div>
+    </div>
+    <center>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-6 mb-4 mb-md-0" th:object="${wycieczka}">
+
+            <div id="mdb-lightbox-ui"></div>
+
+            <div class="mdb-lightbox">
+
+              <div class="row product-gallery mx-1">
+
+                <div class="col-12 mb-0">
+                  <figure class="view overlay rounded z-depth-1 main-img">
+                      <img th:src="@{${'/image/display/'+ wycieczka.tripId}}"
+                           class="img-fluid z-depth-1">
+                  </figure>
+                </div>
+
+            </div>
+
+          </div>
+          <div class="col-md-6">
+
+            <h5 th:text="${wycieczka.name}"></h5>
+            <p class="mb-2 text-muted text-uppercase small">Standard hotelu</p>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <div class="rating" th:if="${wycieczka.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).JEDNOGWIAZDKOWE}">
+                <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).JEDNOGWIAZDKOWE})}">
+                  <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                </a>
+              </div>
+              <div class="rating" th:if="${wycieczka.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).DWUGWIAZDKOWE}">
+                <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).DWUGWIAZDKOWE})}">
+                  <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                </a>
+              </div>
+              <div class="rating" th:if="${wycieczka.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).TRZYGWIAZDKOWE}">
+                <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).TRZYGWIAZDKOWE})}">
+                  <label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                </a>
+              </div>
+              <div class="rating" th:if="${wycieczka.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).CZTEROGWIAZDKOWE}">
+                <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).CZTEROGWIAZDKOWE})}">
+                  <label for="stars-rating-4"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                </a>
+              </div>
+              <div class="rating" th:if="${wycieczka.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).PIECIOGWIAZDKOWE}">
+                <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).PIECIOGWIAZDKOWE})}">
+                  <label for="stars-rating-5"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-4"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                </a>
+              </div>
+              <div class="rating" th:if="${wycieczka.getHotel().getStars() == T(biuro.podrozy.projekt.model.Gwiazdki).SZESCIOGWIAZDKOWE}">
+                <a th:href="@{/searchStars/{stars}(stars=${T(biuro.podrozy.projekt.model.Gwiazdki).SZESCIOGWIAZDKOWE})}">
+                  <label for="stars-rating-6"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-5"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-4"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
+                  <label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
+                </a>
+              </div>
+            </div>
+            <p><span class="mr-1">Dorosły: <strong th:text="${wycieczka.adultPrice}"></strong><strong>zł</strong></span></p>
+            <p><span class="mr-1">Dziecko: <strong th:text="${wycieczka.kidsPrice}"></strong><strong>zł</strong></span></p>
+            <div class="table-responsive">
+              <table class="table table-sm table-borderless mb-0">
+                <tbody>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Kontynent</strong></th>
+                    <td>
+                      <a th:href="@{/searchContinent/continentId={id}(id=${wycieczka.getHotel().getCity().getCountry().getContinent().getContinentId()})}">
+                        <span th:text="${wycieczka.getHotel().getCity().getCountry().getContinent().getName()}"></span>
+                      </a>
+                    </td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Kraj</strong></th>
+                  <td>
+                    <a th:href="@{/searchCountry/countryId={id}(id=${wycieczka.getHotel().getCity().getCountry().getCountryId()})}">
+                      <span th:text="${wycieczka.getHotel().getCity().getCountry().getName()}"></span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Miasto</strong></th>
+                  <td>
+                    <a th:href="@{/searchCity/cityId={id}(id=${wycieczka.getHotel().getCity().getCityId()})}">
+                      <span th:text="${wycieczka.getHotel().getCity().getName()}"></span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Hotel</strong></th>
+                  <td>
+                    <a th:href="@{/searchHotel/hotelId={id}(id=${wycieczka.getHotel().getHotelId()})}">
+                      <span th:text="${wycieczka.getHotel().getName()}"></span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Wylot z</strong></th>
+                  <td>
+                    <a th:href="@{/searchAirport/airportId={id}(id=${wycieczka.getFrom().getAirportId()})}">
+                      <span th:text="${wycieczka.getFrom().getName()}"></span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Przylot do</strong></th>
+                  <td>
+                    <a th:href="@{/searchAirportTo/airportId={id}(id=${wycieczka.getTo().getAirportId()})}">
+                      <span th:text="${wycieczka.getTo().getName()}"></span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Typ</strong></th>
+                  <td>
+                    <a th:href="@{/searchType/{type}(type=${wycieczka.type})}">
+                      <span th:text="${wycieczka.type}"></span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Okres:</strong></th>
+                  <td>
+                    <a th:href="@{/searchDeparture/{date}(date=${wycieczka.getDepartureDate()})}">
+                      <span th:text="${wycieczka.departureDate}"></span>
+                    </a>
+                    do
+                    <a th:href="@{/searchReturn/{date}(date=${wycieczka.getReturnDate()})}">
+                      <span th:text="${wycieczka.returnDate}"></span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Miejsca dla dorosłych:</strong></th>
+                  <td th:text="${wycieczka.adultNumberOfSeats}"></td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Miejsca dla dzieci:</strong></th>
+                  <td th:text="${wycieczka.kidsNumberOfSeats}"></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <hr>
+            <div class="table-responsive mb-2">
+              <table class="table table-sm table-borderless">
+                <tbody>
+                <tr>
+                  <td class="pl-0 pb-0 w-25">Ilość uczestników</td>
+                </tr>
+                <tr>
+                  <td class="pl-0">
+                    <div class="def-number-input number-input safari_only mb-0">
+                      <input class="quantity" min="0" name="quantity" value="1" type="number">
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <a th:href="@{/buyTrip/tripId={id}(id=${wycieczka.getTripId()})}" class="btn btn-success">Kup wycieczkę</a>
+          </div>
+        </div>
+        </div>
+    </center>
+    <div class="row">
+      <div class="col">
+        <footer th:insert="fragments.html :: footer">
+
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/select2-develop/dist/js/select2.full.js}"></script>
+</body>
+</html>

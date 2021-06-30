@@ -4,17 +4,8 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -35,46 +26,58 @@ public class Wycieczka {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long tripId;
 
+	@NotNull(message = "Podaj nazwę")
 	private String name;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     //@JoinColumn(name = "airportId")
 	@JoinColumn(name = "airport_from_Id")
 	//@OnDelete(action = OnDeleteAction.CASCADE)
+	@NotNull(message = "Wybierz lotnisko wylotu")
     private Lotnisko from;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     //@JoinColumn(name = "airportId", insertable=false, updatable=false)
 	@JoinColumn(name = "airport_to_Id")
 	//@OnDelete(action = OnDeleteAction.CASCADE)
+	@NotNull(message = "Wybierz lotnisko przylotu")
     private Lotnisko to;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "hotelId")
 	//@OnDelete(action = OnDeleteAction.CASCADE)
+	@NotNull(message = "Wybierz hotel")
     private Hotel hotel;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "WYbierz datę odlotu")
 	private LocalDate departureDate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "WYbierz datę powrotu")
 	private LocalDate returnDate;
 	
 	private int daysDuration;
-	
+
+	@NotNull(message = "Wybierz typ wycieczki")
 	private Typ type;
-	
+
+	@NotNull(message = "Podaj cenę za dorosłego")
 	private float adultPrice;
-	
+
+	@NotNull(message = "Podaj cenę za dziecko")
 	private float kidsPrice;
 
 	private boolean promoted;
-	
+
+	@NotNull(message = "Podaj ilość miejsc dla dorosłych")
 	private int adultNumberOfSeats;
-	
+
+	@NotNull(message = "Podaj ilość miejsc dla dzieci")
 	private int kidsNumberOfSeats;
-	
-	private File photo;
+
+	@Lob
+	private byte[] image;
 	
 //	@OneToMany(cascade = CascadeType.REMOVE)
 //    @JoinColumn(name = "tripPurchaseId")
@@ -184,20 +187,20 @@ public class Wycieczka {
 		this.kidsNumberOfSeats = kidsNumberOfSeats;
 	}
 
-	public File getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(File photo) {
-		this.photo = photo;
-	}
-
 	public boolean isPromoted() {
 		return promoted;
 	}
 
 	public void setPromoted(boolean promoted) {
 		this.promoted = promoted;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 //	public List<ZakupWycieczki> getTripsPurchases() {

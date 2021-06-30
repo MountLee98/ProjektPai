@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -28,11 +29,13 @@ public class Uczestnik {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long clientId;
-	
+
+	@NotNull(message = "Podaj imię")
 	private String name;
-	
+
+	@NotNull(message = "Podaj nazwisko")
 	private String surname;
-	
+
 	private boolean isChild;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

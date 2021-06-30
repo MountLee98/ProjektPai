@@ -4,9 +4,9 @@
   <meta charset="UTF-8"/>
   <title>Spring Boot Thymeleaf Application - Bootstrap Autocomplete</title>
 
-  <link th:rel="stylesheet" th:href="@{assets/select2-develop/dist/css/select2.css}"/>
-  <link th:rel="stylesheet" th:href="@{assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
-  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <link th:rel="stylesheet" th:href="@{/assets/select2-develop/dist/css/select2.css}"/>
+  <link th:rel="stylesheet" th:href="@{/assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
 
@@ -34,18 +34,9 @@
       </div>
     </div>
 
-
     <div class="row">
       <div class="col">
-        <div th:insert="fragments.html :: main">
-
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <form action="#" th:action="@{/editTrip}" th:object="${wycieczka}" method="post">
+        <form action="#" th:action="@{/editTrip}" th:object="${wycieczka}" method="post" enctype="multipart/form-data">
           <input type="hidden" th:field="*{tripId}">
           <p>Nazwa: <input type="text" th:field="*{name}" /></p>
           <p>Lot z lotniska: <select th:field="*{from}" class="form-control">
@@ -68,7 +59,8 @@
           <label th:for="promoted" th:text="'Czy promowana:'"></label> <input type="checkbox" th:field="*{promoted}" />
           <p>Ilość miejsc dla dorosłych: <input type="number" min="0" th:field="*{adultNumberOfSeats}" /></p>
           <p>Ilość miejsc dla dzieci: <input type="number" min="0" th:field="*{kidsNumberOfSeats}" /></p>
-          <p>Dodaj zdjęcie: <input type="file" accept="image/png, image/jpeg" th:field="*{photo}" /></p>
+          <p>Dodaj zdjęcie: <input type="file" class="form-control" placeholder="" name="photo" id="photo"></p>
+          <input type="hidden" th:field="*{image}">
           <p><input type="submit" value="Submit" />
         </form>
       </div>
@@ -86,6 +78,7 @@
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{assets/select2-develop/dist/js/select2.full.js}"></script>
+<script th:src="@{/assets/select2-develop/dist/js/select2.full.js}"></script>
+<script src="/js/edit.js"></script>
 </body>
 </html>

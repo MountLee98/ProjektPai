@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -29,7 +30,8 @@ public class Kontynent {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long continentId;
-	
+
+	@NotNull(message = "Podaj nazwę")
 	private String name;
 	
 	//@OneToMany(cascade = CascadeType.REMOVE)
